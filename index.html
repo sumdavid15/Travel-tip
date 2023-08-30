@@ -10,11 +10,18 @@
 
 <body>
 <div class="main-header">
-    <div class="search">
-    <h1>Travel.Tip</h1>
-        <input type="text" placeholder="Search">
-            <button class="btn search-btn">Search</button>
-            <button onclick="onGetUserPos()" class="btn btn-user-pos">Get User Position</button>
+    <div class="search-conatiner">
+        <div>
+        </div>
+        <div class="search">
+            <h1>Travel.Tip</h1>
+            <div>
+                <input type="text" class="search-input" placeholder="Search Location" id="search">
+                
+                <button class="btn search-btn">Search</button>
+                <button onclick="onGetUserPos()" class="btn btn-user-pos">Get User Position</button>
+            </div>
+        </div>
         </div>
 
         <div class="currLoc">

@@ -12,6 +12,7 @@ body {
 
 .main-header {
     margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .main-container {
@@ -23,11 +24,27 @@ margin: 10px;
 
 }
 
+.search-container {
+    display: flex;
+
+    align-items: center;
+    /* margin: 10px; */
+    padding: 10px;
+}
+
 .search {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin: 10px;
+}
+
+#search {
+    width: 40%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1.2rem;
 }
 
 .left {
@@ -62,11 +79,6 @@ margin: 10px;
     margin: 5px;
 }
 
-.head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
 .currLoc {
     display: flex;
