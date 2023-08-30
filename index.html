@@ -16,40 +16,40 @@
             <button class="btn search-btn">Search</button>
             <button onclick="onGetUserPos()" class="btn btn-user-pos">Get User Position</button>
         </div>
-        
+
         <div class="currLoc">
             <h1>Location: <span id="currLoc"></span></h1>
             <button class="btn copy-btn">Copy</button>
+        </div>
+
+        <div class="buttons">
+            <button onclick="onAddMarker()" class="btn btn-add-marker">Add Marker Speific Location</button>
+            <button onclick="onGetLocs()" class=" btn btn-get-locs">Get Locations</button>
+            <button onclick="onPanTo(35.652832,139.839478)" class="btn btn-pan">Pan Map to Tokyo</button>
+            <button onclick="onAdd()" class="btn btn-add">Add</button>
+        </div>
     </div>
-    
-    <div class="buttons">
-        <button onclick="onAddMarker()" class="btn btn-add-marker">Add Marker Speific Location</button>
-        <button onclick="onGetLocs()" class=" btn btn-get-locs">Get Locations</button>
-        <button onclick="onPanTo(35.652832,139.839478)" class="btn btn-pan">Pan Map to Tokyo</button>
-        <button onclick="onAdd()" class="btn btn-add">Add</button>
-    </div>
-</div>
 
     <div class="main-container">
 
         <div class="left">
             <div class="location-Container">
                 <p>Locations:
-                    <pre class="locs"></pre>
+                <pre class="locs"></pre>
                 </p>
             </div>
-                <div class="weather-Container">
-                    weather
-                </div>
+            <div class="weather-Container">
+                weather
+            </div>
         </div>
 
 
 
-    <div id="map" style="width: 100%; height: 400px;"></div>
+        <div id="map" style="width: 100%; height: 400px;"></div>
     </div>
 
-<!-- <p>You are at: <span class="user-pos"></span></p> -->
-
+    <!-- <p>You are at: <span class="user-pos"></span></p> -->
+    <script src="lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>
 </body>
 
