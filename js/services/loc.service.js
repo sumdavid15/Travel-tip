@@ -31,16 +31,17 @@ function getLocationByName(address) {
         })
 }
 
-function saveLocation(location, name) {
+function saveLocation(location, name, weather) {
     const loc = {
         id: makeId(5),
         name: name,
         lat: location.lat,
         lng: location.lng,
-        weather: null,
+        weather,
         createdAt: Date.now,
         updatedAt: null,
     }
+    console.log(loc);
     locs.push(loc)
     storageService.save('location', locs)
 }

@@ -46,6 +46,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 currLocation.lng = infoWindow.position.lng()
 
                 console.log('currLocation:', currLocation)
+                console.log('gMap:', gMap)
 
                 infoWindow.setContent(
                     JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2),
@@ -56,11 +57,13 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         })
 }
 
-function addMarker(loc) {
+function addMarker(loc, title) {
+    console.log('title:', title)
+    console.log('loc:', loc)
     var marker = new google.maps.Marker({
         position: loc,
         map: gMap,
-        title: 'Hello World!'
+        title,
     })
     return marker
 }
