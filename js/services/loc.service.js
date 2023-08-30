@@ -16,7 +16,7 @@ function getLatLangByName(address) {
         return Promise.resolve(searchDB[address])
     }
 
-    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${hiddenKey.key}`)
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${hiddenKey.key}`)
         .then(res => {
             console.log('res:', res)
             console.log(' res.data:', res.data)
