@@ -33,6 +33,8 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             infoWindow.open(gMap);
             // Configure the click listener.
             gMap.addListener("click", (mapsMouseEvent) => {
+                // update the url with the new location params
+                window.history.pushState(null, null, `?lat=${mapsMouseEvent.latLng.lat()}&lng=${mapsMouseEvent.latLng.lng()}`)
                 // Close the current InfoWindow.
                 console.log('mapsMouseEvent:', mapsMouseEvent)
 

@@ -1,61 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TravelTip</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-<body>
-    <div class="main-header">
+  <body>
+    <div class="app">
+      <div class="main-header">
         <div class="search-conatiner">
-            <div>
-            </div>
             <div class="search">
-                <h1>Travel.Tip</h1>
-                <form onsubmit="onSearchLocation(event)">
-                    <input type="text" class="search-input" placeholder="Search Location" id="search">
+              <h1>Travel.Tip</h1>
+              <div class="flex">
+                  <form onsubmit="onSearchLocation(event)">
+                    <input
+                    type="text"
+                    class="search-input"
+                    placeholder="Search Location"
+                    id="search"
+                    />
                     <button type="submit" class="btn search-btn">Search</button>
                 </form>
-
-                <button onclick="onGetUserPos()" class="btn btn-user-pos">Get User Position</button>
+                <button onclick="onGetUserPos()" class="btn btn-user-pos">
+                    My Position
+                </button>
             </div>
+
+          </div>
         </div>
 
+        
         <div class="currLoc">
-            <h1>Location: <span id="currLoc"></span></h1>
-            <button class="btn copy-btn">Copy</button>
+          <h1>Location: <span id="currLoc"></span></h1>
+          <button class="btn copy-btn" onclick="onCopyLocation()">Copy</button>
         </div>
-
         <div class="buttons">
-            <button onclick="onAddMarker()" class="btn btn-add-marker">Add Marker Speific Location</button>
-            <button onclick="onGetLocs()" class=" btn btn-get-locs">Get Locations</button>
-            <button onclick="onPanTo(35.652832,139.839478)" class="btn btn-pan">Pan Map to Tokyo</button>
-            <button onclick="onAdd()" class="btn btn-add">Add</button>
+          <button onclick="onAddMarker()" class="btn btn-add-marker">
+            Add Marker Speific Location
+          </button>
+          <button onclick="onGetLocs()" class="btn btn-get-locs">
+            Get Locations
+          </button>
+          <button onclick="onPanTo(35.652832,139.839478)" class="btn btn-pan">
+            Pan Map to Tokyo
+          </button>
+          <button onclick="onAdd()" class="btn btn-add">Add</button>
         </div>
-    </div>
+      </div>
 
-    <div class="main-container">
-
+      <div class="main-container">
         <div class="left">
-            <div class="location-Container">
-                <p>Locations:
-                <pre class="locs"></pre>
-                </p>
-            </div>
-            <div class="weather-Container"></div>
+          <div class="location-Container">
+            <pre class="locs"></pre>
+          </div>
+          <div class="weather-Container"></div>
         </div>
 
-
-
-        <div id="map" style="width: 100%; height: 400px;"></div>
+        <div id="map" style="width: 100%; height: 400px"></div>
+      </div>
     </div>
 
     <!-- <p>You are at: <span class="user-pos"></span></p> -->
     <script src="lib/axios.js"></script>
+    <script src="https://kit.fontawesome.com/9788c2d745.js" crossorigin="anonymous"></script>
     <script type="module" src="js/app.controller.js"></script>
-</body>
-
+  </body>
 </html>

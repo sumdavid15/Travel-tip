@@ -10,11 +10,27 @@ window.onGetUserPos = onGetUserPos
 window.onAdd = onAdd
 window.onDelete = onDelete
 window.onSearchLocation = onSearchLocation
+window.onCopyLocation = onCopyLocation
+
 
 function onInit() {
     mapService.initMap()
         .then(() => {
             console.log('Map is ready')
+        })
+        .then(onGetUserPos)
+        // check if there is query params ?lat=xxx&lng=xxx
+        .then(() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lat = +urlParams.get('lat')
+            const lng = +urlParams.get('lng')
+            console.log('lat:', lat);
+            console.log('lng:', lng);
+            if (lat && lng) {
+                onPanTo(lat, lng)
+            } else {
+                onGetUserPos()
+            }
         })
         .catch(() => console.log('Error: cannot init map'))
 }
@@ -56,8 +72,8 @@ function createWeatherHtml(weather) {
      <div>
         <h1>Weather Today</h1>
         <img src="http://openweathermap.org/img/wn/${weather.icon}@2x.png" alt="">
-        <div class="address">${weather.address}<p>${weather.condition}</p></div>
-        <div><p>${weather.currTemp}°C<p>temperature from ${weather.minTemp} to ${weather.maxTemp} °C, wind ${weather.windSpeed} kph</div>
+        <div class="address">${weather.address}, <p>${weather.condition}</p></div>
+        <div class="temp-container"><p class="temp">${weather.currTemp}°C</p>from ${weather.minTemp} to ${weather.maxTemp} °C, wind ${weather.windSpeed} kph</div>
      </div>`
 }
 
@@ -71,8 +87,8 @@ function renderLocs(loc) {
     return `
     <div class="card">
       <div class="loc-name">${loc.name}</div>
-      <button class="btn go-btn" onclick="onPanTo(${loc.lat},${loc.lng})">Go</button>
-      <button class="btn delete-btn" onclick="onDelete('${loc.id}')">Delete</button>
+      <button class="btn go-btn" onclick="onPanTo(${loc.lat},${loc.lng})"><i class="fas fa-map-marker-alt"></i></button>
+      <button class="btn delete-btn" onclick="onDelete('${loc.id}')"><i class="fas fa-trash-alt"></i></button>
     </div>`
 }
 
@@ -88,7 +104,13 @@ function onGetUserPos() {
 
 function onPanTo(lat, lng) {
     mapService.panTo(lat, lng)
-    weatherService.getLocationWeather(lat, lng).then(renderWeather)
+    weatherService.getLocationWeather(lat, lng).then(res => {
+        renderWeather(res)
+        document.querySelector('#currLoc').innerText = res.address
+        // update the url with the search query
+        window.history.pushState('', '', `?lat=${lat}&lng=${lng}`);
+    })
+
 }
 
 function onAdd() {
@@ -121,4 +143,9 @@ function onSearchLocation(ev) {
     locService.getLocationByName(value).then(res => {
         onPanTo(res.lat, res.lng)
     })
+}
+
+function onCopyLocation() {
+    const url = window.location.href
+    navigator.clipboard.writeText(url)
 }
