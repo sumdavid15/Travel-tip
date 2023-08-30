@@ -122,6 +122,7 @@ function onAdd() {
     weatherService.getLocationWeather(currLocation.lat, currLocation.lng).then(res => {
         locService.saveLocation(mapService.getClickedLocation(), locationName, res)
         onGetLocs()
+        mapService.closeInfoWindow()
     })
 }
 
