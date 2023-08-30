@@ -1,4 +1,4 @@
-import { hiddenKey } from '../../hiddenFile.js'
+import { hiddenKey } from './hiddenKey.js'
 
 export const mapService = {
     initMap,
