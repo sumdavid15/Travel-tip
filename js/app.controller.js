@@ -32,9 +32,21 @@ function onAddMarker() {
 function onGetLocs() {
     locService.getLocs()
         .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
+            // console.log('Locations:', locs)
+            // document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
+
+            const locationContainer = document.querySelector('.location-Container')
+            locationContainer.innerHTML = locs.map(loc => renderLocs(loc.name)).join('')
         })
+}
+
+function renderLocs(name) {
+    return `
+    <div class="card">
+      <div class="loc-name">${name}</div>
+      <button class="btn go-btn">Go</button>
+      <button class="btn delete-btn">Delete</button>
+    </div>`
 }
 
 function onGetUserPos() {
