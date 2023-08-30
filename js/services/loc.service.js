@@ -1,26 +1,33 @@
 import { storageService } from './storage.service.js'
-import { hiddenKey } from './hiddenKey.js'
+import { hiddenGeoCodeKey } from './hiddenKey.js'
 
 export const locService = {
     getLocs,
     saveLocation,
     updateLoc,
+    getLocationByName,
 }
 
 let locs = storageService.load('location') || []
 
-function getLatLangByName(address) {
+function getLocationByName(address) {
     const searchDB = storageService.load('searchDB') || {}
 
     if (searchDB[address]) {
         return Promise.resolve(searchDB[address])
     }
 
-    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${hiddenKey.key}`)
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${hiddenGeoCodeKey.key}`)
         .then(res => {
             console.log('res:', res)
-            console.log(' res.data:', res.data)
-            // storageService.save('searchDB')
+            const address = res.data.results[0].formatted_address;
+            const addressLocation = res.data.results[0].geometry.location;
+
+            searchDB[address] = addressLocation
+            console.log('searchDB:', searchDB)
+            storageService.save('searchDB', searchDB)
+
+            return searchDB[address]
         })
 }
 

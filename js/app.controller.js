@@ -8,6 +8,7 @@ window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onAdd = onAdd
 window.onDelete = onDelete
+window.onSearchLocation = onSearchLocation
 
 function onInit() {
     mapService.initMap()
@@ -27,6 +28,7 @@ function getPosition() {
 
 function onAddMarker() {
     console.log('Adding a marker')
+
     mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
 }
 
@@ -78,4 +80,13 @@ function onDelete(id) {
             locService.updateLoc(locations)
             renderLocationTable(locations)
         })
+}
+
+function onSearchLocation(ev) {
+    ev.preventDefault()
+    const inputEl = document.querySelector('.search-input')
+    const value = inputEl.value
+    locService.getLocationByName(value).then(res => {
+        onPanTo(res.lat, res.lng)
+    })
 }

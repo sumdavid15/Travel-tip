@@ -9,19 +9,19 @@
 </head>
 
 <body>
-<div class="main-header">
-    <div class="search-conatiner">
-        <div>
-        </div>
-        <div class="search">
-            <h1>Travel.Tip</h1>
+    <div class="main-header">
+        <div class="search-conatiner">
             <div>
-                <input type="text" class="search-input" placeholder="Search Location" id="search">
-                
-                <button class="btn search-btn">Search</button>
+            </div>
+            <div class="search">
+                <h1>Travel.Tip</h1>
+                <form onsubmit="onSearchLocation(event)">
+                    <input type="text" class="search-input" placeholder="Search Location" id="search">
+                    <button type="submit" class="btn search-btn">Search</button>
+                </form>
+
                 <button onclick="onGetUserPos()" class="btn btn-user-pos">Get User Position</button>
             </div>
-        </div>
         </div>
 
         <div class="currLoc">
