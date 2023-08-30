@@ -143,6 +143,7 @@ function onSearchLocation(ev) {
     locService.getLocationByName(value).then(res => {
         onPanTo(res.lat, res.lng)
     })
+    inputEl.value = ''
 }
 
 function onCopyLocation() {

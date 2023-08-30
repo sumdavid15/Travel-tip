@@ -61,8 +61,9 @@ body {
 
 .left {
     grid-column: 1;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
+    flex-direction: column-reverse;
+    max-height: inherit;
 }
 
 .weather-Container {
@@ -86,6 +87,8 @@ body {
 
 .location-Container {
     grid-row: 2;
+    overflow: auto;
+    flex: 1;
 }
 
 #map {
@@ -167,7 +170,8 @@ body {
     align-items: center;
 }
 
-.search h1 , .currLoc h1{
+.search h1,
+.currLoc h1 {
     color: white;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
