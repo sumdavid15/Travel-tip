@@ -3,12 +3,18 @@ import { hiddenKey } from './hiddenKey.js'
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
+    getClickedLocation,
 }
 
 
 // Var that is used throughout this Module (not global)
 var gMap
+
+let currLocation = {
+    lat: null,
+    lng: null,
+}
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap')
@@ -29,14 +35,18 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             gMap.addListener("click", (mapsMouseEvent) => {
                 // Close the current InfoWindow.
                 console.log('mapsMouseEvent:', mapsMouseEvent)
-                
+
                 infoWindow.close();
                 // Create a new InfoWindow.
                 infoWindow = new google.maps.InfoWindow({
                     position: mapsMouseEvent.latLng,
                 });
-                console.log('infoWindow:', infoWindow.position.lat())
-                console.log('infoWindow:', infoWindow.position.lng())
+
+                currLocation.lat = infoWindow.position.lat()
+                currLocation.lng = infoWindow.position.lng()
+
+                console.log('currLocation:', currLocation)
+
                 infoWindow.setContent(
                     JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2),
                 );
@@ -72,4 +82,8 @@ function _connectGoogleApi() {
         elGoogleApi.onload = resolve
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
+}
+
+function getClickedLocation() {
+    return currLocation
 }

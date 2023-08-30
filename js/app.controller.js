@@ -6,7 +6,7 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
-window.onAdd =onAdd
+window.onAdd = onAdd
 
 function onInit() {
     mapService.initMap()
@@ -48,11 +48,13 @@ function onGetUserPos() {
             console.log('err!!!', err)
         })
 }
+
 function onPanTo() {
     console.log('Panning the Map')
     mapService.panTo(35.6895, 139.6917)
 }
 
-function onAdd(){
-
+function onAdd() {
+    const locationName = prompt('Name the place')
+    locService.saveLocation(mapService.getClickedLocation(), locationName)
 }

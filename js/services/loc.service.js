@@ -5,21 +5,20 @@ export const locService = {
     saveLocation,
 }
 
-const locs = [
-    {
-        id: null,
-        name: 'Greatplace',
-        lat: 32.047104,
-        lng: 34.832384,
+const locs = storageService.load('location') || []
+
+function saveLocation(location, name) {
+    const loc = {
+        id: makeId(5),
+        name: name,
+        lat: location.lat,
+        lng: location.lng,
         weather: null,
-        createdAt: null,
+        createdAt: Date.now,
         updatedAt: null,
-    },
-    { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
-]
-
-function saveLocation() {
-
+    }
+    locs.push(loc)
+    storageService.save('location', locs)
 }
 
 function getLocs() {
@@ -30,4 +29,15 @@ function getLocs() {
     })
 }
 
+function makeId(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let result = '';
 
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charactersLength);
+        result += characters.charAt(randomIndex);
+    }
+
+    return result;
+}
