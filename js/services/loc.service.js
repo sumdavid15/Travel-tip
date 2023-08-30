@@ -6,6 +6,7 @@ export const locService = {
     saveLocation,
     updateLoc,
     getLocationByName,
+    deleteLocation,
 }
 
 let locs = storageService.load('location') || []
@@ -70,4 +71,12 @@ function makeId(length) {
 function updateLoc(loc) {
     locs = loc
     storageService.save('location', locs)
+}
+
+function deleteLocation(id) {
+    locService.getLocs().then((locations) => {
+        const locationIdx = locations.findIndex((loc) => loc.id === id)
+        locations.splice(locationIdx, 1)
+        locService.updateLoc(locations)
+    })
 }

@@ -13,63 +13,63 @@ window.onSearchLocation = onSearchLocation
 window.onCopyLocation = onCopyLocation
 
 function onInit() {
-  mapService
-    .initMap()
-    .then(() => {
-      console.log("Map is ready")
-    })
-    .then(onGetUserPos)
-    // check if there is query params ?lat=xxx&lng=xxx
-    .then(() => {
-      const urlParams = new URLSearchParams(window.location.search)
-      const lat = +urlParams.get("lat")
-      const lng = +urlParams.get("lng")
-      console.log("lat:", lat)
-      console.log("lng:", lng)
-      if (lat && lng) {
-        onPanTo(lat, lng)
-      } else {
-        onGetUserPos()
-      }
-    })
-    .catch(() => console.log("Error: cannot init map"))
+    mapService
+        .initMap()
+        .then(() => {
+            console.log("Map is ready")
+        })
+        .then(onGetUserPos)
+        // check if there is query params ?lat=xxx&lng=xxx
+        .then(() => {
+            const urlParams = new URLSearchParams(window.location.search)
+            const lat = +urlParams.get("lat")
+            const lng = +urlParams.get("lng")
+            console.log("lat:", lat)
+            console.log("lng:", lng)
+            if (lat && lng) {
+                onPanTo(lat, lng)
+            } else {
+                onGetUserPos()
+            }
+        })
+        .catch(() => console.log("Error: cannot init map"))
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
-  console.log("Getting Pos")
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject)
-  })
+    console.log("Getting Pos")
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
 }
 
 function onAddMarker(locObj) {
-  console.log("Adding a marker")
+    console.log("Adding a marker")
 
-  mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
+    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
 }
 
 function onGetLocs() {
-  locService.getLocs().then((locs) => {
-    console.log("locs:", locs)
-    renderMarker(locs)
-    renderLocationTable(locs)
-  })
+    locService.getLocs().then((locs) => {
+        console.log("locs:", locs)
+        renderMarker(locs)
+        renderLocationTable(locs)
+    })
 }
 
 function renderMarker(locs) {
-  locs.forEach((loc) =>
-    mapService.addMarker({ lat: loc.lat, lng: loc.lng }, loc.name)
-  )
+    locs.forEach((loc) =>
+        mapService.addMarker({ lat: loc.lat, lng: loc.lng }, loc.name)
+    )
 }
 
 function renderWeather(weather) {
-  const weatherContainer = document.querySelector(".weather-Container")
-  weatherContainer.innerHTML = createWeatherHtml(weather)
+    const weatherContainer = document.querySelector(".weather-Container")
+    weatherContainer.innerHTML = createWeatherHtml(weather)
 }
 
 function createWeatherHtml(weather) {
-  return `
+    return `
      <div>
         <h1>Weather Today</h1>
         <img src="http://openweathermap.org/img/wn/${weather.icon}@2x.png" alt="">
@@ -79,12 +79,12 @@ function createWeatherHtml(weather) {
 }
 
 function renderLocationTable(locs) {
-  const locationContainer = document.querySelector(".location-Container")
-  locationContainer.innerHTML = locs.map((loc) => renderLocs(loc)).join("")
+    const locationContainer = document.querySelector(".location-Container")
+    locationContainer.innerHTML = locs.map((loc) => renderLocs(loc)).join("")
 }
 
 function renderLocs(loc) {
-  return `
+    return `
     <div class="card">
       <div class="loc-name">${loc.name}</div>
       <div>
@@ -95,29 +95,29 @@ function renderLocs(loc) {
 }
 
 function onGetUserPos() {
-  getPosition()
-    .then((pos) => {
-      onPanTo(pos.coords.latitude, pos.coords.longitude)
-    })
-    .catch((err) => {
-      console.error("err!!!", err.message)
-    })
+    getPosition()
+        .then((pos) => {
+            onPanTo(pos.coords.latitude, pos.coords.longitude)
+        })
+        .catch((err) => {
+            console.error("err!!!", err.message)
+        })
 }
 
 function onPanTo(lat, lng) {
-  mapService.panTo(lat, lng)
-  weatherService.getLocationWeather(lat, lng).then((res) => {
-    renderWeather(res)
-    document.querySelector("#currLoc").innerText = res.address
-    // update the url with the search query
-    window.history.pushState("", "", `?lat=${lat}&lng=${lng}`)
-  })
+    mapService.panTo(lat, lng)
+    weatherService.getLocationWeather(lat, lng).then((res) => {
+        renderWeather(res)
+        document.querySelector("#currLoc").innerText = res.address
+        // update the url with the search query
+        window.history.pushState("", "", `?lat=${lat}&lng=${lng}`)
+    })
 }
 
 function onAdd() {
-  const locationName = prompt("Name the place")
-  if (!locationName) return
-  const currLocation = mapService.getClickedLocation()
+    const locationName = prompt("Name the place")
+    if (!locationName) return
+    const currLocation = mapService.getClickedLocation()
 
     if (!currLocation.lat) return
     weatherService.getLocationWeather(currLocation.lat, currLocation.lng).then(res => {
@@ -128,26 +128,22 @@ function onAdd() {
 }
 
 function onDelete(id) {
-  locService.getLocs().then((locations) => {
-    const locationIdx = locations.findIndex((loc) => loc.id === id)
-    locations.splice(locationIdx, 1)
-    locService.updateLoc(locations)
+    locService.deleteLocation(id).then(renderLocationTable(locations))
     renderLocationTable(locations)
-  })
 }
 
 function onSearchLocation(ev) {
-  ev.preventDefault()
-  const inputEl = document.querySelector(".search-input")
-  const value = inputEl.value
+    ev.preventDefault()
+    const inputEl = document.querySelector(".search-input")
+    const value = inputEl.value
 
-  locService.getLocationByName(value).then((res) => {
-    onPanTo(res.lat, res.lng)
-  })
-  inputEl.value = ""
+    locService.getLocationByName(value).then((res) => {
+        onPanTo(res.lat, res.lng)
+    })
+    inputEl.value = ""
 }
 
 function onCopyLocation() {
-  const url = window.location.href
-  navigator.clipboard.writeText(url)
+    const url = window.location.href
+    navigator.clipboard.writeText(url)
 }
