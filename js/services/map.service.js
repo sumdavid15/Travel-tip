@@ -5,16 +5,19 @@ export const mapService = {
     addMarker,
     panTo,
     getClickedLocation,
+    closeInfoWindow
 }
 
 
 // Var that is used throughout this Module (not global)
 var gMap
-
 let currLocation = {
     lat: null,
     lng: null,
-}
+};
+
+let gInfoWindow;
+
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap')
@@ -26,11 +29,11 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
-            let infoWindow = new google.maps.InfoWindow({
+            gInfoWindow = new google.maps.InfoWindow({
                 content: "Click the map to get Lat/Lng!",
                 position: { lat, lng },
             })
-            infoWindow.open(gMap);
+            gInfoWindow.open(gMap);
             // Configure the click listener.
             gMap.addListener("click", (mapsMouseEvent) => {
                 // update the url with the new location params
@@ -38,24 +41,25 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 // Close the current InfoWindow.
                 console.log('mapsMouseEvent:', mapsMouseEvent)
 
-                infoWindow.close();
+                gInfoWindow.close();
                 // Create a new InfoWindow.
-                infoWindow = new google.maps.InfoWindow({
+                gInfoWindow = new google.maps.InfoWindow({
                     position: mapsMouseEvent.latLng,
                 });
+                gInfoWindow
+                console.log('gInfoWindow:', gInfoWindow)
 
-                currLocation.lat = infoWindow.position.lat()
-                currLocation.lng = infoWindow.position.lng()
+                currLocation.lat = gInfoWindow.position.lat()
+                currLocation.lng = gInfoWindow.position.lng()
 
                 console.log('currLocation:', currLocation)
                 console.log('gMap:', gMap)
 
-                infoWindow.setContent(
+                gInfoWindow.setContent(
                     JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2),
                 );
-                infoWindow.open(gMap);
+                gInfoWindow.open(gMap);
             })
-            console.log('Map!', gMap)
         })
 }
 
@@ -68,6 +72,10 @@ function addMarker(loc, title) {
         title,
     })
     return marker
+}
+
+function closeInfoWindow() {
+    gInfoWindow.close()
 }
 
 function panTo(lat, lng) {

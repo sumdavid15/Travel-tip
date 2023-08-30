@@ -119,16 +119,11 @@ function onAdd() {
   if (!locationName) return
   const currLocation = mapService.getClickedLocation()
 
-  if (!currLocation.lat) return
-  weatherService
-    .getLocationWeather(currLocation.lat, currLocation.lng)
-    .then((res) => {
-      locService.saveLocation(
-        mapService.getClickedLocation(),
-        locationName,
-        res
-      )
-      onGetLocs()
+    if (!currLocation.lat) return
+    weatherService.getLocationWeather(currLocation.lat, currLocation.lng).then(res => {
+        locService.saveLocation(mapService.getClickedLocation(), locationName, res)
+        onGetLocs()
+        mapService.closeInfoWindow()
     })
 }
 
