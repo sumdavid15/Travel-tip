@@ -1,1 +1,2 @@
-hiddenFile.js
+*.log
+hiddenFile
