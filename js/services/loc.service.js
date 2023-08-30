@@ -1,4 +1,5 @@
 import { storageService } from './storage.service.js'
+import { hiddenKey } from './hiddenKey.js'
 
 export const locService = {
     getLocs,
@@ -8,17 +9,20 @@ export const locService = {
 
 let locs = storageService.load('location') || []
 
-function getLatlangByName(name) {
-    const searchDB = loadFromStorage(STORAGE_KEY) || {}
+function getLatLangByName(address) {
+    const searchDB = storageService.load('searchDB') || {}
 
-    if (searchDB[name]) {
-        return Promise.resolve(searchDB[name])
+    if (searchDB[address]) {
+        return Promise.resolve(searchDB[address])
     }
 
-    return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${YT_KEY}&q=${value}`).then(res => res.data)
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${hiddenKey.key}`)
+        .then(res => {
+            console.log('res:', res)
+            console.log(' res.data:', res.data)
+            // storageService.save('searchDB')
+        })
 }
-
-
 
 function saveLocation(location, name) {
     const loc = {
