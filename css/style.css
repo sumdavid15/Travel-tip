@@ -79,6 +79,16 @@ body {
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #56d58ea6;
+}
+
 .weather-Container img {
     width: 30%;
     height: 30%;
